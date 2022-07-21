@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7378254360580581272}
   m_Layer: 6
   m_Name: Object Sample
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358cd4fec194fbe4fad6cb876ad6bf56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCount: 0
-  isFrontObject: 0
+  isPickedUp: 0
   itemCode: 1
+  stackCount: 0
+  isDependent: 0
+  groundItem: {fileID: 0}

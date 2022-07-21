@@ -16,31 +16,35 @@ public class GameManager : MonoBehaviour
     public int mapNegativeIndex;
     public int itemPerGround;
     public Text guideMessage;
-    public Transform slots;
-    public List<Item> bag = new List<Item>();
+    public Bag bag;
+
     bool setMessage;
 
     public float messageTime;
 
 
 
-    public Dictionary<int, Image> itemImageDictionary = new Dictionary<int, Image>();
+   
     // Start is called before the first frame update
     void Start()
     {
         manager = this;
 
         guideMessage.text = "";
-        itemImageDictionary.Add(1, Resources.Load<Image>("Item1"));
+        // itemImageDictionary.Add(1, Resources.Load<Image>("Item1"));
 
-        for (int i = 0; i < 0; i++)
+        /*for (int i = 0; i < 0; i++)
         {
             var instance = Instantiate(ground, new Vector3((i + 1) * ground.transform.localScale.x, -5, 0), Quaternion.identity, earth);
+            instance.name = "Ground";
+            
             if (i % 2 == 0)
                 instance.GetComponent<SpriteRenderer>().color = Color.green;
-        }
+        }*/
 
-        Instantiate(ground, new Vector3(0, -5, 0), Quaternion.identity, earth);
+        var instance0 = Instantiate(ground, new Vector3(0, -5, 0), Quaternion.identity, earth);
+        instance0.GetComponent<SpriteRenderer>().color = Color.gray;
+        instance0.name = "Ground";
 
     }
 
@@ -69,6 +73,7 @@ public class GameManager : MonoBehaviour
         if (player.transform.position.x > mapPositiveIndex * 10)
         {
             var instance = Instantiate(ground, new Vector3((mapPositiveIndex + 1) * 10, -5, 0), Quaternion.identity, earth);
+            instance.name = "Ground";
             mapPositiveIndex += 1;
             if (mapPositiveIndex % 2 == 0)
                 instance.GetComponent<SpriteRenderer>().color = Color.green;
@@ -84,6 +89,7 @@ public class GameManager : MonoBehaviour
         if (player.transform.position.x < (mapNegativeIndex) * -10)
         {
             var instance = Instantiate(ground, new Vector3((mapNegativeIndex + 1) * 10 * -1, -5, 0), Quaternion.identity, earth);
+            instance.name = "Ground";
             mapNegativeIndex += 1;
             if (mapNegativeIndex % 2 == 0)
                 instance.GetComponent<SpriteRenderer>().color = Color.green;
@@ -96,12 +102,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetBagImage(int itemCode)
-    {
-        var instance = Instantiate(itemImageDictionary[itemCode], slots);
-        instance.name = "item in bag";
-
-    }
+    
 
     public void SetMessage(string message)
     {
