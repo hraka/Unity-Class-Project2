@@ -28,26 +28,8 @@ public class Item : MonoBehaviour
         //1) 플레이어가 아이템을 들고 있지 않은 경우 아이템을 든다.
         //2) 플레이어가 아이템을 들고 있는 경우, 아이템을 쌓는다.
         //두개가 겹쳐있는 경우 두 가지 일이 동시에 일어난다.
-        /*if (isCount && GameManager.manager.player.isPicking && Input.GetKeyDown(KeyCode.Space)) 
-        {
-            SetStack();
-        } else if(isCount && Input.GetKeyDown(KeyCode.Space))
-        {
-            PickedUp();
-        }
 
-
-        if (isPickedUp && Input.GetKeyDown(KeyCode.F)) //하나만 들 수 있다고 가정한 상태
-        {
-            PutDown();
-        }
-
-        if (isPickedUp && Input.GetKeyDown(KeyCode.Q))
-        {
-
-            PutInBag();
-
-        }*/
+ 
 
         //플레이어가 뭔가 들고 있는 상태
         if (isCount && GameManager.manager.player.isPicking && Input.GetKeyDown(KeyCode.R))
@@ -56,25 +38,7 @@ public class Item : MonoBehaviour
         }
     }
 
-/*    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject.name == "Player")
-        {
-            isCount = true;
-            //GameManager.manager.guideMessage.text = "스페이스를 눌러 들어올리기";
-        }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.name == "Player")
-        {
-            {
-                isCount = false;
-                //GameManager.manager.guideMessage.text = "";
-            }
-        }
-    }*/
 
     public void PickedUp()
     {
