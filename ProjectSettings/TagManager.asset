@@ -15,8 +15,8 @@ TagManager:
   - Object
   - Wall
   - Ground
-  - 
-  - 
+  - Player
+  - TakedObject
   - 
   - 
   - 
