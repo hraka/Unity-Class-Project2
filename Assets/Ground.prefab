@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2789458418541275397}
   - component: {fileID: 3118158901244104}
   - component: {fileID: 626116402277112569}
+  - component: {fileID: 6090080822096340252}
   m_Layer: 7
   m_Name: Wall Bottom
   m_TagString: Untagged
@@ -109,6 +110,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &6090080822096340252
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937181379289901067}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &4468222238894866751
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,6 +252,7 @@ GameObject:
   - component: {fileID: 8825597226599374980}
   - component: {fileID: 2726858247445808223}
   - component: {fileID: 1266722669777691496}
+  - component: {fileID: 7613468807634308533}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Ground
@@ -342,3 +365,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d19ccbc8dd685a742817af7e50c83992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &7613468807634308533
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8825597226599374981}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

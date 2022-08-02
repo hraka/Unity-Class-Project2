@@ -13,48 +13,88 @@ public class Player : MonoBehaviour
     private bool isCountItem;
     public bool isOnGround;
     public GameObject counted;
+    public LayerMask layerMask;
+    public LayerMask layerMaskForPick;
     int count;
+    int forward;
+    float charge;
+    public GameObject red;
    
     // Start is called before the first frame update
     void Start()
     {
-        
+        forward = 1;
+        charge = 1.5f;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        /*Color color = red.GetComponent<SpriteRenderer>().color;
+        red.GetComponent<SpriteRenderer>().color.a = charge / 20;*/
+
+
         var velocity = Vector2.zero;
-        if (isOnGround)
+        if (/*isOnGround*/ true)
         {
             velocity.x = Input.GetAxisRaw("Horizontal") * speed;
             velocity.y = Input.GetAxisRaw("Vertical") * speed;
+
+            if (Input.GetAxisRaw("Horizontal") < 0)
+                forward = -1;
+                
+            else if (Input.GetAxisRaw("Horizontal") > 0)
+                forward = 1;
+
+
+            transform.localScale = new Vector3(forward, 1, 1);
             
         }
         GetComponent<Rigidbody2D>().velocity = velocity; //벽에 부딪히면 0이 우선으로 들어간다?
                                                          //transform.position += new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0) * Time.deltaTime * speed;
 
 
-        if (isCountItem && Input.GetKeyDown(KeyCode.K))
-        {
-            
-            Debug.Log("접촉" + count++);
-        }
 
-        if (isCountItem && isPicking && Input.GetKeyDown(KeyCode.Space))
-        {
-            countedItem.SetStack();
-        }
-        else if (isCountItem && Input.GetKeyDown(KeyCode.Space))
-        {
-            countedItem.PickedUp();
-        }
+        
+        Vector2 rayPosition = new Vector2(transform.position.x + (forward * charge) , 10);
+        Ray2D ray = new Ray2D(rayPosition, Vector2.down);
+        Debug.DrawRay(rayPosition, Vector2.down * 20, Color.green);
 
 
-        if (isPicking && Input.GetKeyDown(KeyCode.F)) //하나만 들 수 있다고 가정한 상태
+
+        Ray2D rayForPick = new Ray2D(transform.position, new Vector2(forward, -1));
+        Debug.DrawRay(transform.position, new Vector2(forward, 0), Color.red);
+        RaycastHit2D hitDataForPick = Physics2D.Raycast(transform.position, new Vector2(forward, -1), 1, layerMaskForPick);
+        Debug.Log(hitDataForPick.point);
+
+
+
+
+
+
+
+        if (hitDataForPick && !isPicking && Input.GetKeyUp(KeyCode.F))
         {
+            Debug.Log("F key Pressed");
+            PickUp(hitDataForPick.collider.GetComponent<Item>());
+            Debug.Log(hitDataForPick.collider.GetComponent<Item>());
+        }
+       /* else if (isPicking && Input.GetKey(KeyCode.F))
+        {
+            charge += Time.deltaTime * 2;
+        }*/
+
+
+        /*else if (isPicking && Input.GetKeyUp(KeyCode.F)) //하나만 들 수 있다고 가정한 상태
+        {
+
+            RaycastHit2D hitData = Physics2D.Raycast(rayPosition, Vector2.down, 20, layerMask);
+            var dropPoint = hitData.point;
+            takedItem.transform.position = new Vector3(dropPoint.x, dropPoint.y + 2f, 0);
             takedItem.PutDown();
-        }
+            charge = 1.5f;
+        }*/
 
         if (isPicking && Input.GetKeyDown(KeyCode.Q))
         {
@@ -68,47 +108,27 @@ public class Player : MonoBehaviour
             //GetOutOfBag();
             //가방에 있는걸 takedObject로 부른다.
 
-            item.gameObject.SetActive(true);
-            item.PickedUp();
-            item.transform.localPosition = new Vector3(0, 1, 0);
-
-        }
-
-    }
-
- 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        counted = collision.gameObject;
-        
-
-        if (collision.gameObject.name == "Item")
-        {
-            countedItem = collision.GetComponent<Item>();
-            isCountItem = true;
+            if (item)
+            {
+                item.gameObject.SetActive(true);
+                item.PickedUp();
+                item.transform.localPosition = new Vector3(0, 1, 0);
+            }
             
+
         }
-
-
 
     }
 
-    private void OnTriggerStay2D(Collider2D collision) //프레임마다 호출
-    {
-        if (collision.transform.tag == "Ground")
-        {
-            Debug.Log("땅에 닿음");
-            isOnGround = true;
-            GetComponent<Rigidbody2D>().gravityScale = 0;
-        }
-    }
+
+  
 
 
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         counted = collision.gameObject;
-        GetComponent<Rigidbody2D>().gravityScale = 1;
+        //GetComponent<Rigidbody2D>().gravityScale = 1;
 
         if (collision.gameObject.name == "Item")
         {
@@ -117,15 +137,13 @@ public class Player : MonoBehaviour
                 isCountItem = false;
             }
         }
-        if (collision.transform.tag == "Ground")
-        {
-            Debug.Log("땅에서 나감");
-            isOnGround = false;
-        } //다른 땅 타일로 옮겨갈 때 움직이지 않는다. 땅에 접촉했는지 여부?
+        
     }
+
 
     public void PickUp(Item picked)
     {
+        picked.PickedUp();
         takedItem = picked;
         Debug.Log("플레이어가 " + takedItem + "를 주웠다");
         isPicking = true;
@@ -135,7 +153,9 @@ public class Player : MonoBehaviour
 
     public void DetechItem()
     {
+        takedItem.GetComponent<Rigidbody2D>().isKinematic = false;
         takedItem.transform.parent = null;
+        takedItem.gameObject.layer = 6;
         takedItem.GetComponent<Item>().isPickedUp = false;
 
         takedItem = null;
