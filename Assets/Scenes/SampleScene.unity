@@ -263,6 +263,7 @@ MonoBehaviour:
   point: {fileID: 1272635137}
   red: {fileID: 0}
   chargeSpeed: 2
+  pupil: {fileID: 1596831970}
 --- !u!212 &341351229
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -937,8 +938,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92072f7a9dc4c304489053fb5ea9b51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pupil: {fileID: 0}
+  pupil: {fileID: 1596831970}
   dir: {x: 0, y: 0, z: 0}
+  newDir: {x: 0, y: 0, z: 0}
+  localInitPoint: {x: 0, y: 0, z: 0}
+  transform_target: {fileID: 0}
 --- !u!1 &1199027080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,7 +1338,7 @@ GameObject:
   - component: {fileID: 1596831971}
   - component: {fileID: 1596831972}
   m_Layer: 9
-  m_Name: Sight
+  m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
