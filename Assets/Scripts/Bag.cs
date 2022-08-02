@@ -14,7 +14,8 @@ public class Bag : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        itemImageDictionary.Add(1, Resources.Load<Image>("Item1"));
+        itemImageDictionary.Add(1, Resources.Load<Image>("Item 1"));
+        itemImageDictionary.Add(2, Resources.Load<Image>("Item 2"));
     }
 
     // Update is called once per frame

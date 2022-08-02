@@ -15,16 +15,19 @@ public class Player : MonoBehaviour
     public GameObject counted;
     public LayerMask layerMask;
     public LayerMask layerMaskForPick;
+    public GameObject point;
     int count;
     int forward;
     float charge;
     public GameObject red;
+    public float chargeSpeed;
    
     // Start is called before the first frame update
     void Start()
     {
         forward = 1;
         charge = 1.5f;
+        point.SetActive(false);
     }
 
     // Update is called once per frame
@@ -60,13 +63,16 @@ public class Player : MonoBehaviour
         Vector2 rayPosition = new Vector2(transform.position.x + (forward * charge) , 10);
         Ray2D ray = new Ray2D(rayPosition, Vector2.down);
         Debug.DrawRay(rayPosition, Vector2.down * 20, Color.green);
-
+        RaycastHit2D hitData = Physics2D.Raycast(rayPosition, Vector2.down, 20, layerMask);
+        var dropPoint = hitData.point;
 
 
         Ray2D rayForPick = new Ray2D(transform.position, new Vector2(forward, -1));
         Debug.DrawRay(transform.position, new Vector2(forward, 0), Color.red);
         RaycastHit2D hitDataForPick = Physics2D.Raycast(transform.position, new Vector2(forward, -1), 1, layerMaskForPick);
         Debug.Log(hitDataForPick.point);
+        
+
 
 
 
@@ -76,25 +82,27 @@ public class Player : MonoBehaviour
 
         if (hitDataForPick && !isPicking && Input.GetKeyUp(KeyCode.F))
         {
-            Debug.Log("F key Pressed");
+            Debug.Log("F key Pressed for " + hitDataForPick.transform.name);
             PickUp(hitDataForPick.collider.GetComponent<Item>());
             Debug.Log(hitDataForPick.collider.GetComponent<Item>());
         }
-       /* else if (isPicking && Input.GetKey(KeyCode.F))
+        else if (isPicking && Input.GetKey(KeyCode.F))
         {
-            charge += Time.deltaTime * 2;
-        }*/
+            if(point.activeSelf == false)
+                point.SetActive(true);
+            charge += Time.deltaTime * chargeSpeed;
+            point.transform.position = hitData.point + Vector2.up;
+        }
 
 
-        /*else if (isPicking && Input.GetKeyUp(KeyCode.F)) //하나만 들 수 있다고 가정한 상태
+        else if (isPicking && Input.GetKeyUp(KeyCode.F)) //하나만 들 수 있다고 가정한 상태
         {
 
-            RaycastHit2D hitData = Physics2D.Raycast(rayPosition, Vector2.down, 20, layerMask);
-            var dropPoint = hitData.point;
             takedItem.transform.position = new Vector3(dropPoint.x, dropPoint.y + 2f, 0);
             takedItem.PutDown();
             charge = 1.5f;
-        }*/
+            point.SetActive(false);
+        }
 
         if (isPicking && Input.GetKeyDown(KeyCode.Q))
         {
@@ -111,7 +119,8 @@ public class Player : MonoBehaviour
             if (item)
             {
                 item.gameObject.SetActive(true);
-                item.PickedUp();
+                PickUp(item);
+                //item.PickedUp();
                 item.transform.localPosition = new Vector3(0, 1, 0);
             }
             

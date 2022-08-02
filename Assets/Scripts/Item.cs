@@ -59,10 +59,10 @@ public class Item : MonoBehaviour
             this.transform.SetParent(GameManager.manager.player.transform);
             isPickedUp = true;
 
-            if(isDependent)
+            /*if(isDependent)
             {
                 groundItem.stackCount -= 1;
-            }
+            }*/
         }        
     }
 

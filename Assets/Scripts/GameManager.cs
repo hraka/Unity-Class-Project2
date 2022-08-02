@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager manager;
     public GameObject ground;
     public Transform earth;
-    public GameObject item;
+    public GameObject[] items;
     public Player player;
     public bool triger = true;
     public int mapPositiveIndex;
@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
 
     public void InstantiateMap()
     {
+
         if (player.transform.position.x > mapPositiveIndex * 10)
         {
             var instance = Instantiate(ground, new Vector3((mapPositiveIndex + 1) * 10, -5, 0), Quaternion.identity, earth);
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
 
             for (int i = 0; i < itemPerGround; i++)
             {
+                var item = items[Random.Range(0, items.Length)];
                 var itemInstance = Instantiate(item, new Vector3(Random.Range(mapPositiveIndex * 10 - 5f, mapPositiveIndex * 10 + 5f), Random.Range(-3f, 0f), 0), Quaternion.identity);
                 itemInstance.name = "Item";
             }
@@ -96,6 +98,7 @@ public class GameManager : MonoBehaviour
 
             for (int i = 0; i < itemPerGround; i++)
             {
+                var item = items[Random.Range(0, items.Length)];
                 var itemInstance = Instantiate(item, new Vector3(Random.Range(mapNegativeIndex * -10 - 5f, mapNegativeIndex * -10 + 5f), Random.Range(-3f, 0f), 0), Quaternion.identity);
                 itemInstance.name = "Item";
             }
