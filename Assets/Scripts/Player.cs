@@ -61,6 +61,8 @@ public class Player : MonoBehaviour
         Ray2D ray = new Ray2D(rayPosition, Vector2.down);
         Debug.DrawRay(rayPosition, Vector2.down * 20, Color.green);
 
+
+
         Ray2D rayForPick = new Ray2D(transform.position, new Vector2(forward, -1));
         Debug.DrawRay(transform.position, new Vector2(forward, 0), Color.red);
         RaycastHit2D hitDataForPick = Physics2D.Raycast(transform.position, new Vector2(forward, -1), 1, layerMaskForPick);
@@ -74,17 +76,17 @@ public class Player : MonoBehaviour
 
         if (hitDataForPick && !isPicking && Input.GetKeyUp(KeyCode.F))
         {
-
+            Debug.Log("F key Pressed");
             PickUp(hitDataForPick.collider.GetComponent<Item>());
             Debug.Log(hitDataForPick.collider.GetComponent<Item>());
         }
-        else if (isPicking && Input.GetKey(KeyCode.F))
+       /* else if (isPicking && Input.GetKey(KeyCode.F))
         {
             charge += Time.deltaTime * 2;
-        }
+        }*/
 
 
-        else if (isPicking && Input.GetKeyUp(KeyCode.F)) //하나만 들 수 있다고 가정한 상태
+        /*else if (isPicking && Input.GetKeyUp(KeyCode.F)) //하나만 들 수 있다고 가정한 상태
         {
 
             RaycastHit2D hitData = Physics2D.Raycast(rayPosition, Vector2.down, 20, layerMask);
@@ -92,7 +94,7 @@ public class Player : MonoBehaviour
             takedItem.transform.position = new Vector3(dropPoint.x, dropPoint.y + 2f, 0);
             takedItem.PutDown();
             charge = 1.5f;
-        }
+        }*/
 
         if (isPicking && Input.GetKeyDown(KeyCode.Q))
         {
