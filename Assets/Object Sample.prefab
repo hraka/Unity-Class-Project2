@@ -133,6 +133,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  isBagPossible: 1
 --- !u!50 &179561018452975402
 Rigidbody2D:
   serializedVersion: 4

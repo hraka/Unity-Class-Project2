@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     float charge;
     public GameObject red;
     public float chargeSpeed;
+    public GameObject pupil;
    
     // Start is called before the first frame update
     void Start()
@@ -66,6 +67,8 @@ public class Player : MonoBehaviour
         RaycastHit2D hitData = Physics2D.Raycast(rayPosition, Vector2.down, 20, layerMask);
         var dropPoint = hitData.point;
 
+        //pupil.transform.position += new Vector3(hitData.point.normalized.x, hitData.point.normalized.y, 0) * Time.deltaTime;
+
 
         Ray2D rayForPick = new Ray2D(transform.position, new Vector2(forward, -1));
         Debug.DrawRay(transform.position, new Vector2(forward, 0), Color.red);
@@ -106,8 +109,10 @@ public class Player : MonoBehaviour
 
         if (isPicking && Input.GetKeyDown(KeyCode.Q))
         {
-
-            GameManager.manager.bag.PutInBag(takedItem);
+            if(takedItem.isBagPossible)
+            {
+                GameManager.manager.bag.PutInBag(takedItem);
+            }
 
         }
         if (!isPicking && Input.GetKeyDown(KeyCode.E))

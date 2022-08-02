@@ -10,11 +10,9 @@ public class Item : MonoBehaviour
     public bool isPickedUp;
     public int itemCode;
     public int stackCount;
-    public bool isDependent;
-    public Item groundItem;
-    public bool isGrounded;
-    public Item justUnderItem;
+   
     public LayerMask layerMask;
+    public bool isBagPossible;
 
     // Start is called before the first frame update
     void Start()
@@ -135,5 +133,10 @@ public class Item : MonoBehaviour
         GameManager.manager.player.DetechItem();
 
 
+    }
+
+    public void OnCollisionStay2D(Collision2D collision)
+    {
+        
     }
 }
