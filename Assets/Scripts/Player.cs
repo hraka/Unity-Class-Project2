@@ -21,14 +21,23 @@ public class Player : MonoBehaviour
     float charge;
     public GameObject red;
     public float chargeSpeed;
-    public GameObject pupil;
-   
+    public GameObject eye;
+
+    public GameObject star;
+
+    int maxHeight;
+    int targetHeight;
+
+
     // Start is called before the first frame update
     void Start()
     {
         forward = 1;
         charge = 1.5f;
         point.SetActive(false);
+
+        maxHeight = GameManager.manager.maxHeight;
+        targetHeight = GameManager.manager.targetHeight;
     }
 
     // Update is called once per frame
@@ -53,6 +62,7 @@ public class Player : MonoBehaviour
 
 
             transform.localScale = new Vector3(forward, 1, 1);
+            eye.transform.localScale = new Vector3(forward * 0.3f, 0.3f, 1f);
             
         }
         GetComponent<Rigidbody2D>().velocity = velocity; //벽에 부딪히면 0이 우선으로 들어간다?
@@ -60,12 +70,22 @@ public class Player : MonoBehaviour
 
 
 
-        
-        Vector2 rayPosition = new Vector2(transform.position.x + (forward * charge) , 10);
+        //var rayLength = maxHeight - transform.position.y;
+        //아주 높은 곳에서 떨어지는 레이.
+        Vector2 rayPosition = new Vector2(transform.position.x + (forward * charge) , maxHeight);
         Ray2D ray = new Ray2D(rayPosition, Vector2.down);
-        Debug.DrawRay(rayPosition, Vector2.down * 20, Color.green);
-        RaycastHit2D hitData = Physics2D.Raycast(rayPosition, Vector2.down, 20, layerMask);
+        Debug.DrawRay(rayPosition, Vector2.down * (maxHeight + 10), Color.green);
+        RaycastHit2D hitData = Physics2D.Raycast(rayPosition, Vector2.down, maxHeight + 10, layerMask);
         var dropPoint = hitData.point;
+
+        star.transform.position = new Vector3(this.transform.position.x + 1.5f, targetHeight, 0);
+
+
+        /*if(hitData.point.y > maxHeight)
+        {
+            Debug.Log("score");
+            GameManager.manager.SetMessage("이 게임에서 다다를 수 있는 최고점은 이곳이다...");
+        }*/
 
         //pupil.transform.position += new Vector3(hitData.point.normalized.x, hitData.point.normalized.y, 0) * Time.deltaTime;
 
@@ -109,10 +129,7 @@ public class Player : MonoBehaviour
 
         if (isPicking && Input.GetKeyDown(KeyCode.Q))
         {
-            if(takedItem.isBagPossible)
-            {
-                GameManager.manager.bag.PutInBag(takedItem);
-            }
+            GameManager.manager.bag.PutInBag(takedItem);
 
         }
         if (!isPicking && Input.GetKeyDown(KeyCode.E))
@@ -161,6 +178,8 @@ public class Player : MonoBehaviour
         takedItem = picked;
         Debug.Log("플레이어가 " + takedItem + "를 주웠다");
         isPicking = true;
+
+        GameManager.manager.bag.inIcon.SetActive(true);
     }
 
     //내려놓기
@@ -174,7 +193,15 @@ public class Player : MonoBehaviour
 
         takedItem = null;
         isPicking = false;
-        
+
+        GameManager.manager.bag.inIcon.SetActive(false);
+
+
+    }
+
+    public void SetTarget()
+    {
+        targetHeight = GameManager.manager.targetHeight;
     }
    
 }

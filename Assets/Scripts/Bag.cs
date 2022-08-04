@@ -10,10 +10,15 @@ public class Bag : MonoBehaviour
     public List<Image> inventoryImage = new List<Image>();
     public Dictionary<int, Image> itemImageDictionary = new Dictionary<int, Image>();
     public Transform slots;
+    public GameObject inIcon;
+    public GameObject outIcon;
 
     // Start is called before the first frame update
     void Start()
     {
+
+        inIcon.SetActive(false);
+        outIcon.SetActive(false);
         itemImageDictionary.Add(1, Resources.Load<Image>("Item 1"));
         itemImageDictionary.Add(2, Resources.Load<Image>("Item 2"));
     }
@@ -21,24 +26,38 @@ public class Bag : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void PutInBag(Item item)
     {
-        if (inventory.Count < 3)
+        if (item.isBagPossible)
         {
-            inventory.Add(item);
-            var image = SetBagImage(item.itemCode);
-            inventoryImage.Add(image);
+            if (inventory.Count < 3)
+            {
+                inventory.Add(item);
+                var image = SetBagImage(item.itemCode);
+                inventoryImage.Add(image);
 
-            item.PutDown();
-            item.gameObject.SetActive(false); //어디에 멈춰있는가? 위치도 옮겨야 하나?
+                item.PutDown();
+                item.gameObject.SetActive(false); //어디에 멈춰있는가? 위치도 옮겨야 하나?
+            }
+            else
+            {
+                GameManager.manager.SetMessage("가방이 가득 찼다");
+            }
+
+            if(inventory.Count == 1)
+            {
+                outIcon.SetActive(true);
+            }
+            
         }
         else
         {
-            GameManager.manager.SetMessage("가방이 가득 찼습니다");
+            GameManager.manager.SetMessage("가방에 넣을 수 없다");
         }
+            
     }
 
     public Image SetBagImage(int itemCode)
@@ -64,6 +83,12 @@ public class Bag : MonoBehaviour
             var image = inventoryImage[inventoryImage.Count - 1];
             Destroy(image.gameObject);
             inventoryImage.RemoveAt(lastIndex);
+
+
+            if(inventory.Count == 0)
+            {
+                outIcon.SetActive(false);
+            }
 
 
 

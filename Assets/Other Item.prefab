@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4174895506332946979}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -126,13 +126,10 @@ MonoBehaviour:
   isPickedUp: 0
   itemCode: 2
   stackCount: 0
-  isDependent: 0
-  groundItem: {fileID: 0}
-  isGrounded: 0
-  justUnderItem: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  isBagPossible: 1
 --- !u!50 &179561018452975402
 Rigidbody2D:
   serializedVersion: 4

@@ -30,7 +30,7 @@ public class Seeing : MonoBehaviour
         newDir = new Vector3(dir.x, dir.y, 0) - this.transform.position;
 
 
-        float deltaX = point.x - pupil.transform.position.x;
+        /*float deltaX = point.x - pupil.transform.position.x;
         float deltaY = point.y - pupil.transform.position.y;
 
         float temp = Mathf.Pow(deltaX, 2) + Mathf.Pow(deltaY, 2);
@@ -47,7 +47,9 @@ public class Seeing : MonoBehaviour
         } else
         {
             pupil.transform.position += newDir.normalized * Time.deltaTime;
-        }
+        }*/
+
+        pupil.transform.localPosition = newDir.normalized * 0.2f;
 
         
 
